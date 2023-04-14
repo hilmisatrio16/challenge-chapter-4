@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <data>
+        <variable
+            name="note"
+            type="com.example.challengechapter4.room.Note" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.InputFragment"
+        android:background="#DBE2EF"
+        app:contentPadding="20dp"
+        app:cardCornerRadius="20dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Input Data"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#112D4E"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textfieldJudul"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Masukkan Judul"
+                android:layout_marginTop="32dp"
+                android:background="@color/white"
+                app:boxStrokeColor = "#112D4E"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inputJudul"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:inputType="textWebEditText"
+                    android:text="@{note.judul}"
+                    android:maxLines="1"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textfieldCatatan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Masukkan Catatan"
+                android:layout_marginTop="16dp"
+                android:background="@color/white"
+                app:boxStrokeColor = "#112D4E"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:layout_constraintTop_toBottomOf="@id/textfieldJudul"
+
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inputCatatan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{note.catatan}"
+                    android:minHeight="48dp"
+                    android:inputType="textWebEditText"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/textfieldCatatan">
+                <Button
+                    style="@style/Widget.Material3.Button.ElevatedButton"
+                    android:id="@+id/btnInputData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Input"
+                    android:textSize="24sp"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="#3F72AF"
+                    android:textColor="#FFFFFF"
+                    />
+                <Button
+                    style="@style/Widget.Material3.Button.ElevatedButton"
+                    android:id="@+id/btnEditData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Update"
+                    android:textSize="24sp"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="#3F72AF"
+                    android:textColor="#FFFFFF"
+                    android:visibility="gone"
+                    />
+                <Button
+                    style="@style/Widget.Material3.Button.ElevatedButton"
+                    android:id="@+id/btnBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Back"
+                    android:textSize="24sp"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="#3F72AF"
+                    android:textColor="#FFFFFF"
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
