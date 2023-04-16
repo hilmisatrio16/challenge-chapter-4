@@ -2,8 +2,6 @@ package com.example.challengechapter4.room
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.challengechapter4.room.Note
-import com.example.challengechapter4.room.NoteDatabaseDao
 
 class NoteRepository(private val noteDatabaseDao: NoteDatabaseDao) {
 
@@ -25,7 +23,4 @@ class NoteRepository(private val noteDatabaseDao: NoteDatabaseDao) {
         noteDatabaseDao.updateNote(note)
     }
 
-    suspend fun getNote(id : Int){
-        noteDatabaseDao.getNote(id)
-    }
 }

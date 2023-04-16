@@ -1,19 +1,17 @@
 package com.example.challengechapter4.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.challengechapter4.NoteViewModel
+import com.example.challengechapter4.R
 import com.example.challengechapter4.room.Note
 import com.example.challengechapter4.databinding.FragmentInputBinding
 import com.example.challengechapter4.room.NoteDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 class InputFragment : DialogFragment() {
@@ -55,16 +53,20 @@ class InputFragment : DialogFragment() {
     private fun setMenu(id: Int = 0, menu : String){
         when(menu){
             "read" -> {
+                binding.titleDialog = "Read Data"
                 binding.btnInputData.visibility = View.GONE
                 binding.btnEditData.visibility = View.GONE
                 readDataNote(id)
+                editTextEnable()
             }
             "insert" ->{
+                binding.titleDialog = "Input Data"
                 binding.btnInputData.visibility = View.VISIBLE
                 binding.btnEditData.visibility = View.GONE
                 inputDataNote()
             }
             "update" ->{
+                binding.titleDialog = "Edit Data"
                 binding.btnInputData.visibility = View.GONE
                 binding.btnEditData.visibility = View.VISIBLE
                 readDataNote(id)
@@ -73,15 +75,22 @@ class InputFragment : DialogFragment() {
         }
     }
 
+    private fun editTextEnable(){
+        binding.inputJudul.isEnabled = false
+        binding.inputCatatan.isEnabled = false
+        binding.inputJudul.setTextColor(resources.getColor(android.R.color.black))
+        binding.inputCatatan.setTextColor(resources.getColor(android.R.color.black))
+    }
+
     private fun inputDataNote(){
         binding.btnInputData.setOnClickListener {
-            var inputJudul = binding.inputJudul.text.toString()
-            var inputCatatan = binding.inputCatatan.text.toString()
+            val inputJudul = binding.inputJudul.text.toString()
+            val inputCatatan = binding.inputCatatan.text.toString()
             if(inputJudul.isNotEmpty() && inputCatatan.isNotEmpty()){
                 val note = Note(0, inputJudul, inputCatatan)
                 noteViewModel.insertNote(note)
                 Toast.makeText(context, "Data berhasil dimasukkan", Toast.LENGTH_SHORT).show()
-                dismiss()
+                findNavController().navigate(R.id.action_inputFragment_to_homeFragment)
             }else{
                 Toast.makeText(context, "Data tidak boleh kosong!!", Toast.LENGTH_SHORT).show()
             }
@@ -89,29 +98,23 @@ class InputFragment : DialogFragment() {
         }
     }
 
-    fun readDataNote(id : Int){
-//        noteViewModel.getNote(id)
+    private fun readDataNote(id : Int){
 
-//        noteViewModel.noteById.observe(viewLifecycleOwner, Observer {
-//            Toast.makeText(context, "Data $it", Toast.LENGTH_SHORT).show()
-//
-//        })
-
-        CoroutineScope(Dispatchers.IO).launch {
-            val note = database.noteDao().getNote(id)
-            binding.note = note
-        }
+        noteViewModel.getNoteById(id)
+        noteViewModel.getNoteByIdObservers().observe(viewLifecycleOwner, Observer {
+            binding.note = it as Note
+        })
     }
 
-    fun updateDataNote(id : Int){
+    private fun updateDataNote(id : Int){
         binding.btnEditData.setOnClickListener {
-            var inputJudul = binding.inputJudul.text.toString()
-            var inputCatatan = binding.inputCatatan.text.toString()
+            val inputJudul = binding.inputJudul.text.toString()
+            val inputCatatan = binding.inputCatatan.text.toString()
             if(inputJudul.isNotEmpty() && inputCatatan.isNotEmpty()){
                 val noteUpdate = Note(id,inputJudul, inputCatatan)
                 noteViewModel.updateNote(noteUpdate)
                 Toast.makeText(context, "Data berhasil diubah", Toast.LENGTH_SHORT).show()
-                dismiss()
+                findNavController().navigate(R.id.action_inputFragment_to_homeFragment)
             }else{
                 Toast.makeText(context, "Data tidak boleh kosong!!", Toast.LENGTH_SHORT).show()
             }

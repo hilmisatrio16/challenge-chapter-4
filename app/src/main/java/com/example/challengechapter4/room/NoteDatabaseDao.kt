@@ -12,10 +12,10 @@ interface NoteDatabaseDao {
     @Update
     fun updateNote(note: Note)
 
-    @Query("SELECT * FROM note_table ORDER BY judul ASC")
+    @Query("SELECT * FROM note_table ORDER BY UPPER(judul) ASC")
     fun getNotesAsc() : LiveData<List<Note>>
 
-    @Query("SELECT * FROM note_table ORDER BY judul DESC")
+    @Query("SELECT * FROM note_table ORDER BY UPPER(judul) DESC")
     fun getNotesDesc() : LiveData<List<Note>>
 
     @Query("SELECT * FROM note_table WHERE id = :noteId")

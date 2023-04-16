@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +18,6 @@ import com.example.challengechapter4.*
 import com.example.challengechapter4.adapter.NoteAdapter
 import com.example.challengechapter4.databinding.FragmentHomeBinding
 import com.example.challengechapter4.room.Note
-import com.example.challengechapter4.room.NoteDatabase
 
 
 class HomeFragment : Fragment(), NoteAdapter.ItemClickListener {
@@ -61,13 +59,16 @@ class HomeFragment : Fragment(), NoteAdapter.ItemClickListener {
 
         noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
 
-        //panggil fun setSortNote default
+        //panggil fun setSortNote default (asc)
         var sort = sharedPref.getString("sorttype", "asc")
+
+
+        Toast.makeText(context, "Data tersimpan secara $sort", Toast.LENGTH_SHORT).show()
         noteViewModel.setSortType(sort.toString())
 
         noteViewModel.sortType.observe(viewLifecycleOwner, Observer {
             setSortNotes(it as String)
-//            Toast.makeText(context, "Berubag", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, it as String, Toast.LENGTH_SHORT).show()
         })
 
 
@@ -75,23 +76,31 @@ class HomeFragment : Fragment(), NoteAdapter.ItemClickListener {
 
     }
 
-    fun setSortNotes(sort : String){
+    private fun setSortNotes(sort : String){
         if(sort == "asc"){
             noteViewModel.readAllNotesAsc.observe(viewLifecycleOwner, Observer {
-                Log.d("COBA", (it as ArrayList<Note>).toString())
-                noteAdapter.setListNote(it)
-//                Toast.makeText(context, it.toString() , Toast.LENGTH_SHORT).show()
+                noteAdapter.setListNote(it as ArrayList<Note>)
+                setImgData(it)
             })
-        }else{
+        }else if(sort == "desc"){
             noteViewModel.readAllNotesDesc.observe(viewLifecycleOwner, Observer {
-                Log.d("COBA", (it as ArrayList<Note>).toString())
-                noteAdapter.setListNote(it)
-//                Toast.makeText(context, it.toString() , Toast.LENGTH_SHORT).show()
+                noteAdapter.setListNote(it as ArrayList<Note>)
+                setImgData(it)
             })
         }
     }
 
-    fun showPopUpMenu(){
+    private fun setImgData(list: List<Note>){
+
+        if(list.isEmpty()){
+            binding.imgDataEmpty.visibility = View.VISIBLE
+        }else{
+            binding.imgDataEmpty.visibility = View.GONE
+        }
+
+    }
+
+    private fun showPopUpMenu(){
         binding.btnFilter.setOnClickListener {
             val popUp = PopupMenu(requireContext(), binding.btnFilter)
             popUp.menuInflater.inflate(R.menu.sort_menu, popUp.menu)
@@ -101,14 +110,16 @@ class HomeFragment : Fragment(), NoteAdapter.ItemClickListener {
                     R.id.asc -> {
                         val sortAsc = sharedPref.edit().apply{
                             putString("sorttype", "asc")
-                        }.apply()
+                        }
+                        sortAsc.apply()
                         noteViewModel.setSortType("asc")
                         Toast.makeText(context, "Note diurutkan secara Ascending", Toast.LENGTH_SHORT).show()
                     }
                     R.id.decs -> {
                         val desc = sharedPref.edit().apply{
                             putString("sorttype", "desc")
-                        }.apply()
+                        }
+                        desc.apply()
                         noteViewModel.setSortType("desc")
                         Toast.makeText(context, "Note diurutkan secara Descending", Toast.LENGTH_SHORT).show()
                     }
@@ -130,7 +141,7 @@ class HomeFragment : Fragment(), NoteAdapter.ItemClickListener {
                 dialogInterface.dismiss()
             }
 
-            setPositiveButton("Hapus"){dialogInterface, i ->
+            setPositiveButton("Hapus"){ dialogInterface, i ->
                 noteViewModel.deleteNote(note)
                 Toast.makeText(context, "note ${note.judul} Berhasil dihapus", Toast.LENGTH_SHORT).show()
             }

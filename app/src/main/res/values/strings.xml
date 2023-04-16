@@ -2,4 +2,18 @@
     <string name="app_name">Challenge Chapter 4</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="remove_button">remove button</string>
+    <string name="edit_button">edit button</string>
+    <string name="back">Back</string>
+    <string name="update">Update</string>
+    <string name="input">Input</string>
+    <string name="masukkan_catatan">Masukkan Catatan</string>
+    <string name="masukkan_judul">Masukkan Judul</string>
+    <string name="home">Home</string>
+    <string name="float_button_add">float button add</string>
+    <string name="filter_btn">filter btn</string>
+    <string name="welcome_hilmi">Welcome, Hilmi</string>
+    <string name="data_empty">data empty</string>
 </resources>

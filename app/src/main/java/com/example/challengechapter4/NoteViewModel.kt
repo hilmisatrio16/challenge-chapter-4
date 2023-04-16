@@ -9,6 +9,8 @@ import com.example.challengechapter4.room.Note
 import com.example.challengechapter4.room.NoteDatabase
 import com.example.challengechapter4.room.NoteRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class NoteViewModel(application: Application) : AndroidViewModel(application) {
@@ -18,8 +20,7 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: NoteRepository
 
-    val noteById : LiveData<List<Note>>
-
+    private val noteById : MutableLiveData<Note>
 
     private val _sortType = MutableLiveData<String>()
     val sortType : LiveData<String>get() = _sortType
@@ -30,32 +31,39 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         repository = NoteRepository(noteDao)
         readAllNotesAsc = repository.readAllNotesAsc
         readAllNotesDesc = repository.readAllNotesDesc
-        noteById = repository.readNote
+        noteById = MutableLiveData()
     }
 
-//    masih salah
-//    fun getNote(id : Int) = viewModelScope.launch(Dispatchers.IO){
-//        repository.getNote(id)
-//    }
+    fun getNoteByIdObservers() : MutableLiveData<Note>{
+        return noteById
+    }
+
+    fun getNoteById(id : Int){
+        GlobalScope.launch {
+            val noteDao = NoteDatabase.getDatabase(getApplication())!!.noteDao()
+            val listNote = noteDao.getNote(id)
+            noteById.postValue(listNote)
+        }
+    }
 
     fun setSortType(sort : String){
         _sortType.value = sort
     }
 
     fun deleteNote(note: Note) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.async(Dispatchers.IO) {
             repository.delete(note)
         }
     }
 
     fun updateNote(note: Note) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.async(Dispatchers.IO) {
             repository.update(note)
         }
     }
 
     fun insertNote(note: Note) {
-        viewModelScope.launch(Dispatchers.IO)
+        viewModelScope.async(Dispatchers.IO)
         {
             repository.insert(note)
         }

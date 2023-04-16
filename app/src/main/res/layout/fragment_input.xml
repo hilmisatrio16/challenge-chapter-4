@@ -8,23 +8,26 @@
         <variable
             name="note"
             type="com.example.challengechapter4.room.Note" />
+        <variable
+            name="titleDialog"
+            type="String" />
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragment.InputFragment"
-        android:background="#DBE2EF"
         app:contentPadding="20dp"
         app:cardCornerRadius="20dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="8dp">
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Input Data"
+                android:text="@{titleDialog}"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="#112D4E"
@@ -35,7 +38,7 @@
                 android:id="@+id/textfieldJudul"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Masukkan Judul"
+                android:hint="@string/masukkan_judul"
                 android:layout_marginTop="32dp"
                 android:background="@color/white"
                 app:boxStrokeColor = "#112D4E"
@@ -51,6 +54,7 @@
                     android:inputType="textWebEditText"
                     android:text="@{note.judul}"
                     android:maxLines="1"
+                    style="@style/inputTextStyle"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -58,9 +62,10 @@
                 android:id="@+id/textfieldCatatan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Masukkan Catatan"
+                android:hint="@string/masukkan_catatan"
                 android:layout_marginTop="16dp"
                 android:background="@color/white"
+                android:layout_marginBottom="8dp"
                 app:boxStrokeColor = "#112D4E"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:layout_constraintTop_toBottomOf="@id/textfieldJudul"
@@ -73,6 +78,7 @@
                     android:text="@{note.catatan}"
                     android:minHeight="48dp"
                     android:inputType="textWebEditText"
+                    style="@style/inputTextStyle"
                     />
             </com.google.android.material.textfield.TextInputLayout>
             <LinearLayout
@@ -86,35 +92,38 @@
                     android:id="@+id/btnInputData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Input"
-                    android:textSize="24sp"
+                    android:text="@string/input"
+                    android:textSize="22sp"
                     android:layout_marginTop="16dp"
                     android:backgroundTint="#3F72AF"
                     android:textColor="#FFFFFF"
+                    android:fontFamily="@font/poppins_medium"
                     />
                 <Button
                     style="@style/Widget.Material3.Button.ElevatedButton"
                     android:id="@+id/btnEditData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Update"
-                    android:textSize="24sp"
+                    android:text="@string/update"
+                    android:textSize="22sp"
                     android:layout_marginTop="16dp"
                     android:backgroundTint="#3F72AF"
                     android:textColor="#FFFFFF"
                     android:visibility="gone"
+                    android:fontFamily="@font/poppins_medium"
                     />
                 <Button
                     style="@style/Widget.Material3.Button.ElevatedButton"
                     android:id="@+id/btnBack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Back"
-                    android:textSize="24sp"
+                    android:text="@string/back"
+                    android:textSize="22sp"
                     android:layout_marginTop="16dp"
                     android:backgroundTint="#3F72AF"
                     android:textColor="#FFFFFF"
                     android:visibility="gone"
+                    android:fontFamily="@font/poppins_medium"
                     />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
